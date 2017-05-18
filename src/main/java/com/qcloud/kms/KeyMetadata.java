@@ -16,6 +16,7 @@ public class KeyMetadata {
 	public String KeyState;
 	public String KeyUsage;
 	public String Alias ;
+	public int DeleteTime;
 
     public KeyMetadata()
     {
@@ -25,6 +26,7 @@ public class KeyMetadata {
     	KeyState = "";
     	KeyUsage = "";
     	Alias = "";
+    	DeleteTime = 0;
     }
 
 }

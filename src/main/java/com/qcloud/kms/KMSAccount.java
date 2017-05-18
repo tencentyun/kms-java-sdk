@@ -214,6 +214,7 @@ public class KMSAccount {
 	    meta.KeyState = metaObj.getString("keyUsage");
 	    meta.Alias = metaObj.getString("alias");
 	    meta.KeyUsage = metaObj.getString("keyUsage");
+	    meta.DeleteTime = metaObj.getInt("deleteTime");
 	    return meta;
     }
 	/**
