@@ -67,6 +67,11 @@ public class kms_sample {
     		//enable a custom key
     		account.enable_key(meta.KeyId);
     		
+    		//schedule delete key 
+    		account.schedule_key_deletion(meta.KeyId,7);
+    		// cancel delete key 
+    		account.cancel_key_deletion(meta.KeyId);
+    		
     		
     		
     		//list keys    		
