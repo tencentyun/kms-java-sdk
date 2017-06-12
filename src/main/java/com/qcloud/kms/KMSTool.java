@@ -20,50 +20,43 @@ public class KMSTool {
     
     private static final String HMAC_SHA256_ALGORITHM = "HmacSHA256";
 
+	
+	public static String base64_encode(byte[] data) {
+		StringBuffer sb = new StringBuffer();
+		int len = data.length;
+		int i = 0;
+		int b1, b2, b3;
+		while (i < len) {
+			b1 = data[i++] & 0xff;
+			if (i == len) {
+				sb.append(b64c[b1 >>> 2]);
+				sb.append(b64c[(b1 & 0x3) << 4]);
+				sb.append("==");
+				break;
+			}
+			b2 = data[i++] & 0xff;
+			if (i == len) {
+				sb.append(b64c[b1 >>> 2]);
+				sb.append(b64c[((b1 & 0x03) << 4)
+						| ((b2 & 0xf0) >>> 4)]);
+				sb.append(b64c[(b2 & 0x0f) << 2]);
+				sb.append("=");
+				break;
+			}
+			b3 = data[i++] & 0xff;
+			sb.append(b64c[b1 >>> 2]);
+			sb.append(b64c[((b1 & 0x03) << 4)
+					| ((b2 & 0xf0) >>> 4)]);
+			sb.append(b64c[((b2 & 0x0f) << 2)
+					| ((b3 & 0xc0) >>> 6)]);
+			sb.append(b64c[b3 & 0x3f]);
+		}
+		return sb.toString();
+	}
+	
+	
 	public static String base64_encode(String srcStr) {  
-
-        if(srcStr == null || srcStr.length() == 0) {  
-            return srcStr;  
-        }  
-
-        char[] srcStrCh= srcStr.toCharArray();  
-        StringBuilder asciiBinStrB= new StringBuilder();  
-        String asciiBin= null;  
-        for(int i= 0; i< srcStrCh.length; i++) {  
-            asciiBin= Integer.toBinaryString((int)srcStrCh[i]);  
-            while(asciiBin.length()< 8) {  
-                asciiBin= "0"+ asciiBin;  
-            }  
-            asciiBinStrB.append(asciiBin);  
-        }  
- 
-        while(asciiBinStrB.length()% 6!= 0) {  
-            asciiBinStrB.append("0");  
-        }  
-        String asciiBinStr= String.valueOf(asciiBinStrB);  
-      
-        char[] codeCh= new char[asciiBinStr.length()/ 6];  
-        int index= 0;  
-        for(int i= 0; i< codeCh.length; i++) {  
-            index= Integer.parseInt(asciiBinStr.substring(0, 6), 2);  
-            asciiBinStr= asciiBinStr.substring(6);  
-            codeCh[i]= base64Code.charAt(index);  
-        }  
-        StringBuilder code= new StringBuilder(String.valueOf(codeCh));  
-      
-        if(srcStr.length()% 3 == 1) {  
-            code.append("==");  
-        } else if(srcStr.length()% 3 == 2) {  
-            code.append("=");  
-        }  
-  
-        int i= 76;  
-        while(i< code.length()) {  
-            code.insert(i, "\r\n");  
-            i+= 76;  
-        }  
-        code.append("\r\n");  
-        return String.valueOf(code);  
+        return base64_encode(srcStr.getBytes());
     }  
 	
 	public static String base64_decode(String srcStr) {  
@@ -125,6 +118,6 @@ public class KMSTool {
         mac.init(secretKey);
         byte[] digest = mac.doFinal(src.getBytes(CONTENT_CHARSET));
         
-        return new String(base64_encode( new String(digest,CONTENT_CHARSET)));
+        return new String(base64_encode(digest));
     }
 }

@@ -27,7 +27,7 @@ protected String CURRENT_VERSION = "SDK_JAVA_1.0";
 	{
 		if(signMethod != "sha1" && signMethod != "sha256")
 		{
-		    throw new KMSClientException("URL length is larger than 2K when use GET method");
+		    throw new KMSClientException("sign method only sha1 and sha256");
 		}
 		else
 		{
@@ -65,7 +65,6 @@ protected String CURRENT_VERSION = "SDK_JAVA_1.0";
 				flag = true;
 			}
 			param.put("Signature",KMSTool.sign(src, this.secretKey,this.signMethod));
-
 			String url = "";
 			String req = "";
 			if(this.method.equals("GET")){
