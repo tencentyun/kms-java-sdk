@@ -214,6 +214,7 @@ public class KMSAccount {
 	    meta.KeyState = metaObj.getString("keyUsage");
 	    meta.Alias = metaObj.getString("alias");
 	    meta.KeyUsage = metaObj.getString("keyUsage");
+	    meta.DeleteTime = metaObj.getInt("deleteTime");
 	    return meta;
     }
 	/**
@@ -228,6 +229,40 @@ public class KMSAccount {
 		param.put("keyId",KeyId);
 		param.put("alias",Alias);
 		String result = this.client.call("SetKeyAttributes", param);
+		JSONObject jsonObj = new JSONObject(result);
+		int code = jsonObj.getInt("code");
+		if(code != 0)
+			throw new KMSServerException(code,jsonObj.getString("message"),jsonObj.getString("requestId"));
+    }
+    
+    /**
+	 * schedule_key_deletion  
+	 * @keyid              the custom key id
+	 * @pendingWindowInDays  
+	 * return              void 
+	 **/
+    public void schedule_key_deletion(String KeyId , int pendingWindowInDays) throws Exception
+    {
+    	TreeMap<String, String> param = new TreeMap<String, String>();
+		param.put("keyId",KeyId);
+		param.put("pendingWindowInDays",Integer.toString(pendingWindowInDays));
+		String result = this.client.call("ScheduleKeyDeletion", param);
+		JSONObject jsonObj = new JSONObject(result);
+		int code = jsonObj.getInt("code");
+		if(code != 0)
+			throw new KMSServerException(code,jsonObj.getString("message"),jsonObj.getString("requestId"));
+    }
+    
+    /**
+	 * cancel_key_deletion  
+	 * @keyid              the custom key id 
+	 * return              void 
+	 **/
+    public void cancel_key_deletion(String KeyId ) throws Exception
+    {
+    	TreeMap<String, String> param = new TreeMap<String, String>();
+		param.put("keyId",KeyId);
+		String result = this.client.call("CancelKeyDeletion", param);
 		JSONObject jsonObj = new JSONObject(result);
 		int code = jsonObj.getInt("code");
 		if(code != 0)

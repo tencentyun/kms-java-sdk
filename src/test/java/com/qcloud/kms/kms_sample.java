@@ -14,7 +14,7 @@ public class kms_sample {
     	//从腾讯云官网查询的云API密钥信息
         String secretId="";
         String secretKey="";
-        String endpoint = "";       
+        String endpoint = "https://kms-bj.api.qcloud.com";       
         try
         {
     		KMSAccount account = new KMSAccount(endpoint,secretId, secretKey);
@@ -66,6 +66,11 @@ public class kms_sample {
     		
     		//enable a custom key
     		account.enable_key(meta.KeyId);
+    		
+    		//schedule delete key 
+    		account.schedule_key_deletion(meta.KeyId,7);
+    		// cancel delete key 
+    		account.cancel_key_deletion(meta.KeyId);
     		
     		
     		
