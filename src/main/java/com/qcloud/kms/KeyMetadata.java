@@ -1,32 +1,30 @@
 package com.qcloud.kms;
 
 /**
- * @
- * @author York.
+ * @ @author York.
  * @date 2017-2-20
  */
 public class KeyMetadata {
-	/*
-	 *
-	 */
+    /*
+     *
+     */
 
-	public String KeyId;
-	public int CreateTime;
-	public String Description ;
-	public String KeyState;
-	public String KeyUsage;
-	public String Alias ;
-	public int DeleteTime;
+    public String KeyId;
+    public int CreateTime;
+    public String Description;
+    public String KeyState;
+    public String KeyUsage;
+    public String Alias;
+    public int DeleteTime;
 
-    public KeyMetadata()
-    {
-    	KeyId= "";
-    	CreateTime = -1;
-    	Description="";
-    	KeyState = "";
-    	KeyUsage = "";
-    	Alias = "";
-    	DeleteTime = 0;
+    public KeyMetadata() {
+        KeyId = "";
+        CreateTime = -1;
+        Description = "";
+        KeyState = "";
+        KeyUsage = "";
+        Alias = "";
+        DeleteTime = 0;
     }
 
 }
